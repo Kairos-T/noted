@@ -1,0 +1,13 @@
+# -------------------------------------
+# {author_id}:
+#   name: {full name}
+#   url: {homepage_of_author}
+# -------------------------------------
+
+kairos:
+  name: Kairos Tay
+  url: https://kairostay.com
+
+bowen:
+  name: Hu Bowen
+  url: https://hubowen.dev
