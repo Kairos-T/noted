@@ -2,7 +2,7 @@
 Noted is a collaborative notes repository for NP CSF students. It is built using Jekyll and hosted on Vercel.
 
 ## Getting Started 🚀 (Running Locally)
-1. Install Ruby and Jekyll. Refer to the [Docs](https://jekyllrb.com/docs/installation/)
+1. Install Ruby and Jekyll. Refer to the docs [here](https://jekyllrb.com/docs/).
 
 2. Clone the repo
     ```sh
