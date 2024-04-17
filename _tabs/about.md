@@ -10,4 +10,4 @@ Noted is a notes repository in hopes to benefit NP CSF / other students.
 
 ## Contributing
 
-If you would like to contribute notes to this repository, please refer to the [Contributing Docs](/_tabs/contributing).
+If you would like to contribute notes to this repository, please refer to the [Contributing Docs](/contributing).
