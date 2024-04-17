@@ -1,4 +1,9 @@
-# Contributing Guidelines
+---
+layout: page
+icon: fas fa-stream
+order: 3
+---
+
 Firstly, a big thank you for considering to contribute to this notes repository project.
 
 This contribution guide (for the most part) assumes that you are an NP CSF student, and are familiar with `Git/GitHub` and `Markdown`.
