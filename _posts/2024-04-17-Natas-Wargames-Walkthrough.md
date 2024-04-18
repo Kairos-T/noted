@@ -19,7 +19,7 @@ The inspect element tool is used to view what elements a webpage consists of,
 thus the name. I personally use this tool to debug my CSS and fine-tune the
 positioning of different elements on the screen.
 
-![First two levels](/assets/img/natas-wargames-walkthrough/first-two-levels.png)
+![First two levels](/assets/img/wapt/natas-wargames-walkthrough/first-two-levels.png)
 
 ---
 
@@ -29,12 +29,12 @@ This is where it starts to become more challenging. Upon inspecting the webpage,
 we see that there is nothing hidden within the comments and elements. Where
 else can we find clues for where the flag is located?
 
-![flag clue](/assets/img/natas-wargames-walkthrough/flag-clue.png)
+![flag clue](/assets/img/wapt/natas-wargames-walkthrough/flag-clue.png)
 
 We see that there is a tiny ass 1x1 pixel image loaded on the page. It seems
 to be loaded from the `/files/` directory. Let's pay it a visit.
 
-![file directory listing](/assets/img/natas-wargames-walkthrough/file-directory-listing.png)
+![file directory listing](/assets/img/wapt/natas-wargames-walkthrough/file-directory-listing.png)
 
 Viola! We see an entry for `users.txt`, which contains the flag.
 
@@ -79,7 +79,7 @@ Upon inspecting the page, we come across absolutely NOTHING. There is not even a
 that we can explore. The only seemingly possible solution to this is to pull out random
 file paths out of our asses and try it, and you are right. That is EXACTLY what we are going to do.
 
-![nothing](/assets/img/natas-wargames-walkthrough/nothing.png)
+![nothing](/assets/img/wapt/natas-wargames-walkthrough/nothing.png)
 
 ## Level 3 - Robots.txt
 
@@ -124,7 +124,7 @@ may be revealed here. In this challenge, it is exactly the case.
 Upon visiting the `/robots.txt` endpoint, we are told that all bots cannot visit `/s3cr3t/`.
 Let's put the information given above to good use and try to find this page 😄
 
-![secret endpoint](/assets/img/natas-wargames-walkthrough/secret-endpoint.png)
+![secret endpoint](/assets/img/wapt/natas-wargames-walkthrough/secret-endpoint.png)
 
 ---
 
