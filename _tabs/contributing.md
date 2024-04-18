@@ -122,6 +122,7 @@ Prompts:
 
 Tables
 (Hint: Use a [Markdown Table Generator](https://www.tablesgenerator.com/markdown_tables) for this)
+(Additional note: The colon on each column of the second row determines the alignment of the text in the column) 
 
 | Company                      | Contact          | Country |
 |:-----------------------------|:-----------------|--------:|
