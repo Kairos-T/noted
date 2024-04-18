@@ -17,3 +17,5 @@ Noted is a collaborative notes repository for NP CSF students. It is built using
     ```sh
     bundle exec jekyll s
     ```
+
+Example contribution
