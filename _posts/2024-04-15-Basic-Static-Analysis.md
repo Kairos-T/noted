@@ -1,7 +1,67 @@
 ---
-title: "[MATT Wk 1] Basic Static Analysis" 
+title: "[MATT Wk 1] Basic Static Analysis"
 author: kairos
-categories: [Malware Analysis Tools and Techniques]
+categories: [ Malware Analysis Tools and Techniques ]
+img_path: /assets/img/matt/basic-static-analysis
 ---
 
+## Windows Malware Functions Overview
 
+### Hungarian Notation
+
+| Type/Prefix       | Description                                                                                                                                                                         |
+|:------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| WORD (w)          | 16-bit unsigned (positive integer) value                                                                                                                                            |
+| DWORD (dw)        | Double-word; 32-bit unsigned value                                                                                                                                                  |
+| Handles (H)       | A reference to an object, for resource allocation. <br>E.g.: Opening file, OS returns handle instead of memory/other resources. <br><br> Examples include: HModule, HInstance, HKey |
+| Long Pointer (LP) | A direct memory address that points to a specific location in memory; A pointer to another type <br>E.g. LPByte is a pointer to a byte                                              |
+| Callback          | A function that will be called by the Windows API <br>E.g. InternetSetStatusCallback passes a pointer to a function that is called when the system has an update of Internet status |
+
+### File API (Host-based Indicators)
+
+Some common Windows API functions used by malware to interact with files:
+
+| Functions                       | Description/Inferences                                                                                                                                                                                                                                                                                      |
+|:--------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CreateFile                      | Creates/opens files, pipes, streams, and I/O devices. <br/>Could indicate file creation, modification, or data exfiltration.                                                                                                                                                                                |
+| ReadFile/WriteFile              | Reads/writes to files as a stream. <br/>Suggests data theft, file modification, or payload dropping, etc.                                                                                                                                                                                                   |
+| CreateFileMapping/MapViewOfFile | Maps files to memory for direct manipulation. <br/>Implies techniques like in-memory file modifications. <br/><br/>MapViewOfFile: Returns pointer to the base addr of the mapping to access the file. Allows for direct access to the file in memory <br> CreateFileMapping: Loads file from disk to memory |
+| - (Pointer to Base Address)     | Allows direct read/write access and navigation within mapped files. <br/>Indicates potential code injection / direct executable modifications in memory.                                                                                                                                                    |
+
+### Windows Registry (Host-based Indicators)
+
+Windows Registry
+: The registry is a **hierarchical database** that stores configuration settings and options on Windows operating systems.
+
+Malware often uses the Registry to store **configurations**, **persistence mechanisms**, and other information.
+> The Windows Registry Editor can be found by searching for "Regedit" in the Windows search function
+
+![Windows Registry](windows-registry.png)
+
+The registry is organised into:
+- **Root Key/Hive**: Top-level sections of the registry. (HKEY is used to denote a root key)
+- **Subkeys**: Subsections of the registry
+- **Keys**: Folder-like objects that can contain other folders or key-value pairs
+- **Value Entry**: Ordered pairs of name-data that are stored in keys
+- **Value Data**: The data stored in a registry entry
+
+| Root Key                   | Description/Inferences                                                                                                                                                                                               |
+|:---------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| HKEY_CLASSES_ROOT          | Contains file associations and related data (Tells the system how to handle file types based on their extensions). <br/> Might be hijacking file associations, shell extensions, or program behavior modifications.  |
+| HKEY_CURRENT_USER (HKCU)   | Stores user-specific settings. <br/>Suggests user preference/autorun modifications or storing user data.                                                                                                             |
+| HKEY_LOCAL_MACHINE (HKLM)  | Stores global local machine settings. <br/>Indicates persistence, system modifications, or privilege escalation attempts.<br/> E.g.:`HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`          |
+| HKEY_USERS                 | Contains user profile data. <br/>Could target specific user profiles, modify default settings, or persist across user sessions.                                                                                      |
+| HKEY_CURRENT_CONFIG        | Stores hardware profile settings. <br/>Might be gathering system information or modifying hardware configurations.                                                                                                   |
+
+Some common registry functions used by malware (_* indicates that the function is given in the slides. The rest are extra and good to know!_):
+
+| Functions          | Description/Inferences                                                                                                                                                       |
+|:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| RegOpenKeyEx*      | Opens a key in the registry for querying/editing. <br/>Indicates registry key access, modification, or enumeration.                                                          |
+| RegSetValueEx*     | Adds new value to the registry and sets its data <br/>Implies registry value modification, persistence, or configuration changes.                                            |
+| RegGetValue*       | Retrieves the type and data for the specified value entry (opened registry key). <br/>Suggests reading registry values for configuration, persistence, or data exfiltration. |
+| RegCreateKeyEx     | Creates a new key or opens an existing key. <br/>Could indicate new registry key creation, persistence, or configuration changes.                                            |
+| RegDeleteKey       | Deletes a subkey and its values. <br/>Might be used to remove traces, configurations, or persistence mechanisms.                                                             |
+
+> A way to detect registry modifications is taking a snapshot before and after executing a program using tools like RegShot. Compare the snapshots to identify changes.
+{: .prompt-info }
