@@ -2,6 +2,7 @@
 layout: page
 icon: fas fa-code-fork
 order: 3
+img_path: /assets/img/docs
 ---
 
 Firstly, a big thank you for considering to contribute to this notes repository project.
@@ -138,4 +139,10 @@ Tables
 
 ## Contributing to the repository
 
-TODO
+1. After making the changes, add and commit them to your own repository (the forked one). It is highly recommended that you follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format for commit messages. 
+2. Go to the forked GitHub repository and click `Contribute > Open Pull Request` 
+
+   ![Contribute](pr.png)
+3. Check through the changes and create the pull request. 
+    ![Create PR](createpr.png)
+4. You're done! We will review the changes and edit/merge them soon :)
