@@ -5,7 +5,7 @@ categories: [ Malware Analysis Tools and Techniques, MATT Practical ]
 img_path: /assets/img/matt/basic-static-analysis
 ---
 
-These labs are based off Week 1 Basic Static Analysis - Practical. The lab exercises can be found [here](https://github.com/mikesiko/PracticalMalwareAnalysis-Labs).
+These labs are based off Week 1 Basic Static Analysis - Practical. The lab exercises can be found [here](https://github.com/mikesiko/PracticalMalwareAnalysis-Labs). Note that these are my personal solutions and may not be 100% accurate.
 
 
 ## Lab 1 
@@ -43,3 +43,110 @@ EXE
     ![PEiD Lab01-01.exe](1-1-EXEPEiD.png)
 2. Here we can come to the same conclusion as the DLL (same explanations).
 3. Hence, we can deduce that this EXE Is not packed.
+
+### Question 3: What could be the functionalities of this malware, the exe and the dll, based on the imports? 
+
+Firstly, we can use `Dependency Walker` (note: I'm using a rewrite of depends.exe from [GitHub](https://github.com/lucasg/Dependencies)) to view the imports and exports of the files.
+
+![Dependency Walker](1-1-DependencyWalker.png)
+_DLL on the left, EXE on the right._
+
+From the imports of the DLL:
+- `sleep`:  Pauses execution for a specified time period. Malware uses `sleep` to achieve persistence, evade detection (E.g.: Stall execution to outlast sandbox's analysis duration, to prevent it from being analysed), or backdoors.
+- `CreateMutexA` and `OpenMutexA`: Creates and opens a mutex object, respectively. Mutexes are used to ensure that only one instance of the malware runs at a time.
+- `WS2_32.dll`: Windows Socket API. This implies network communication capabilities. The malware could be communicating with a C2 server or downloading additional payloads.
+
+The EXE is more interesting. From the imports of the EXE:
+- `MapViewOfFile` and `CreateFileMappingA`: Maps files to memory for direct manipulation. This implies techniques like in-memory file modifications.
+- `CreateFileA`: Creates or opens files on the system.
+- `FindClose`, `FindNextFileA`, `FindFirstFileA`: Used to recursively search directories for files. This could be used for data exfiltration or to locate specific files on the system.
+- `CopyFileA`: Copies a file
+
+From the imports only, we can infer that the malware likely searches the file system for files and copies them.
+
+If we were to look at the strings of both files, we could gain more insight into the malware's functionalities. 
+
+DLL:
+```
+!This program cannot be run in DOS mode.
+Rich
+.text
+`.rdata
+@.data
+.reloc
+(TRUNCATED FOR BREVITY)
+CloseHandle
+Sleep
+CreateProcessA
+CreateMutexA
+OpenMutexA
+KERNEL32.dll
+WS2_32.dll
+strncmp
+MSVCRT.dll
+free
+_initterm
+malloc
+_adjust_fdiv
+exec
+sleep
+hello
+127.26.152.13
+```
+
+Here, we can see an IP address, `127.26.152.13`, which could indicate potential C2 communication. There are interesting strings too, including `exec`, which could mean that the malware might be receiving commands to execute.
+
+EXE:
+```
+!This program cannot be run in DOS mode.
+Richm
+.text
+`.rdata
+@.data
+(TRUANCATED FOR BREVITY)
+CloseHandle
+UnmapViewOfFile
+IsBadReadPtr
+MapViewOfFile
+CreateFileMappingA
+CreateFileA
+FindClose
+FindNextFileA
+FindFirstFileA
+CopyFileA
+KERNEL32.dll
+malloc
+exit
+MSVCRT.dll
+_exit
+_XcptFilter
+__p___initenv
+__getmainargs
+_initterm
+__setusermatherr
+_adjust_fdiv
+__p__commode
+__p__fmode
+__set_app_type
+_except_handler3
+_controlfp
+_stricmp
+kerne132.dll
+kernel32.dll
+.exe
+C:\*
+C:\windows\system32\kerne132.dll
+Kernel32.
+Lab01-01.dll
+C:\Windows\System32\Kernel32.dll
+WARNING_THIS_WILL_DESTROY_YOUR_MACHINE
+@jjj
+@jjj
+@jjj
+@jjj
+```
+
+Here, we mainly see the same imports as before. However, we see something interesting:
+- `C:\windows\system32\kerne132.dll`: Instead of `kernel32.dll`, it's `kerne132.dll`, which is an attempt to disguise the file as a legitimate system file. This could mean several things, and would require further analysis into the dll file to understand its purpose.
+
+In essence, the malware seems to be a backdoor that communicates with a C2 server, to receive commands to execute, and can copy files from the system.
