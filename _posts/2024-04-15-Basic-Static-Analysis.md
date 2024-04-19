@@ -1,7 +1,7 @@
 ---
 title: "[MATT Wk 1] Basic Static Analysis"
 author: kairos
-categories: [ Malware Analysis Tools and Techniques ]
+categories: [ Malware Analysis Tools and Techniques, Notes ]
 img_path: /assets/img/matt/basic-static-analysis
 ---
 
@@ -38,6 +38,7 @@ Malware often uses the Registry to store **configurations**, **persistence mecha
 
 ![Windows Registry](windows-registry.png)
 
+**Registry Organisation**
 The registry is organised into:
 - **Root Key/Hive**: Top-level sections of the registry. (HKEY is used to denote a root key)
 - **Subkeys**: Subsections of the registry
@@ -53,6 +54,7 @@ The registry is organised into:
 | HKEY_USERS                 | Contains user profile data. <br/>Could target specific user profiles, modify default settings, or persist across user sessions.                                                                                      |
 | HKEY_CURRENT_CONFIG        | Stores hardware profile settings. <br/>Might be gathering system information or modifying hardware configurations.                                                                                                   |
 
+**Common Registry Functions**
 Some common registry functions used by malware (_* indicates that the function is given in the slides. The rest are extra and good to know!_):
 
 | Functions          | Description/Inferences                                                                                                                                                       |
@@ -63,5 +65,27 @@ Some common registry functions used by malware (_* indicates that the function i
 | RegCreateKeyEx     | Creates a new key or opens an existing key. <br/>Could indicate new registry key creation, persistence, or configuration changes.                                            |
 | RegDeleteKey       | Deletes a subkey and its values. <br/>Might be used to remove traces, configurations, or persistence mechanisms.                                                             |
 
-> A way to detect registry modifications is taking a snapshot before and after executing a program using tools like RegShot. Compare the snapshots to identify changes.
+> A way to detect registry modifications is taking a snapshot before and after executing a program using tools like RegShot. Compare the snapshots to identify changes. This will be talked about more in dynamic analysis.
 {: .prompt-info }
+
+### Networking API (Network-based Indicators)
+
+Socket
+: An endpoint for communication between two machines over a network. Programs uses sockets to send and receive data.
+
+**Common Socket API Functions**
+
+| Function | Description/Inferences                                                                                        |
+|----------|---------------------------------------------------------------------------------------------------------------|
+| socket   | Creates a socket. <br/> Might be establishing network communication capabilities.                             |
+| bind     | Attaches socket to a port.<br/>Could be setting up a listening port for receiving commands/data.              |
+| listen   | Prepares socket for incoming connections.<br/>Might be waiting for connections from Command & Control server. |
+| accept   | Opens and accepts incoming connection.<br/>Could be accepting connections from attackers/infected systems.    |
+| connect  | Opens connection to remote socket.<br/> Might be connecting to Command & Control server.                      |
+| recv     | Receives data from remote socket.<br/>Could be receiving data/commands from remote server.                    |
+| send     | Sends data to remote socket.<br/>Might be sending stolen data or system details to remote server.             |
+
+Sniffing
+: The act of capturing network traffic. Malware can use sniffing to steal sensitive information or hide its communication.
+
+[//]: # (**Common Sniffing Functions**)
