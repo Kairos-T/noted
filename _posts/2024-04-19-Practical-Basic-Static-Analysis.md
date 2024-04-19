@@ -1,7 +1,7 @@
 ---
 title: "[MATT Wk 1] Practical - Basic Static Analysis"
 author: kairos
-categories: [ Malware Analysis Tools and Techniques, Practical ]
+categories: [ Malware Analysis Tools and Techniques, MATT Practical ]
 img_path: /assets/img/matt/basic-static-analysis
 ---
 

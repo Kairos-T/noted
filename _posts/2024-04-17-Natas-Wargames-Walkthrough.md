@@ -1,7 +1,7 @@
 ---
 title: "[WAPT Wk 1] NATAS Wargames Walkthrough" 
 author: bowen
-categories: [Web Application Penetration Testing]
+categories: [Web Application Penetration Testing, WAPT Practical]
 ---
 
 This post is meant to serve as a guide for our WAPT module's week 1
