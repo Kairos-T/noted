@@ -75,17 +75,38 @@ Socket
 
 **Common Socket API Functions**
 
-| Function | Description/Inferences                                                                                        |
-|----------|---------------------------------------------------------------------------------------------------------------|
-| socket   | Creates a socket. <br/> Might be establishing network communication capabilities.                             |
-| bind     | Attaches socket to a port.<br/>Could be setting up a listening port for receiving commands/data.              |
-| listen   | Prepares socket for incoming connections.<br/>Might be waiting for connections from Command & Control server. |
-| accept   | Opens and accepts incoming connection.<br/>Could be accepting connections from attackers/infected systems.    |
-| connect  | Opens connection to remote socket.<br/> Might be connecting to Command & Control server.                      |
-| recv     | Receives data from remote socket.<br/>Could be receiving data/commands from remote server.                    |
-| send     | Sends data to remote socket.<br/>Might be sending stolen data or system details to remote server.             |
+| Function  | Description/Inferences                                                                                         |
+|:----------|:---------------------------------------------------------------------------------------------------------------|
+| socket    | Creates a socket. <br/> Might be establishing network communication capabilities.                              |
+| bind      | Attaches socket to a port.<br/>Could be setting up a listening port for receiving commands/data.               |
+| listen    | Prepares socket for incoming connections.<br/>Might be waiting for connections from Command & Control server.  |
+| accept    | Opens and accepts incoming connection.<br/>Could be accepting connections from attackers/infected systems.     |
+| connect   | Opens connection to remote socket.<br/> Might be connecting to Command & Control server.                       |
+| recv      | Receives data from remote socket.<br/>Could be receiving data/commands from remote server.                     |
+| send      | Sends data to remote socket.<br/>Might be sending stolen data or system details to remote server.              |
 
 Sniffing
 : The act of capturing network traffic. Malware can use sniffing to steal sensitive information or hide its communication.
 
-[//]: # (**Common Sniffing Functions**)
+**Common Sniffing Functions**
+
+| Function                   | Description/Inferences                                                                                                                                                                                                                                    |
+|:---------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| WSASocket() / socket()     | Creates a raw socket (allows application to interact directly with network packets at the IP level instead of TCP/UDP). <br/>Might be used for sniffing when combined with other suspicious functions.                                                    |
+| bind()                     | Binds socket to a specific port. <br/>Could be setting up a listening port for sniffing or network communication.                                                                                                                                         |
+| WSAloctl() / ioctlsocket() | Puts NIC into promiscuous mode <br/>-> NIC captures, and sends to the host's CPU, all frames/packets passing through the network, whether or not it is addressed to that specific NIC<br/>Indicates intent to sniff network traffic.                      |
+
+
+### WinINET API (Network-based Indicators)
+
+WinINET API
+: A Windows API that implements high-level protocols (HTTP/FTP, etc.).
+
+Downloaders
+: Malware that downloads additional payloads from the internet. They often use WinINET functions to download the files.
+
+> Malware might need to download additional payloads due to resource limitations (E.g. phishing emails with small payloads), or to evade detection (Initial malware sample has a smaller footprint, appearing less suspicious, evading static analysis/AV detection).
+{: .prompt-info }
+
+[//]: # (**Common WinINET &#40;/Downloader&#41; Functions**)
+
