@@ -108,5 +108,53 @@ Downloaders
 > Malware might need to download additional payloads due to resource limitations (E.g. phishing emails with small payloads), or to evade detection (Initial malware sample has a smaller footprint, appearing less suspicious, evading static analysis/AV detection).
 {: .prompt-info }
 
-[//]: # (**Common WinINET &#40;/Downloader&#41; Functions**)
+**Common WinINET (/Downloader) Functions**
 
+| Function                   | Description/Inferences                                                                                           |
+|:---------------------------|:-----------------------------------------------------------------------------------------------------------------|
+| InternetOpen               | Initialises a connection to the internet. <br/>Might be setting up a connection to download additional payloads. |
+| InternetOpenUrl            | Opens a URL on the internet.                                                                                     |
+| InternetReadFile           | Reads data from a URL.                                                                                           |
+| URLDownloadToFile          | Downloads a file from a URL. <br/>Indicates downloading files from the internet.                                 |
+| ShellExecute() / WinExec() | Executes a program. <br/>Could be executing downloaded payloads.                                                 |
+
+### Process Manipulation (Host-based Indicators)
+
+Process Manipulation
+: - Malware often manipulates processes to **evade detection** (from firewall/user) by creating new child processes (more info below).
+  - `CreateProcess` is a common function used to create new processes. It takes in the parameter `STARTUPINFO`, which includes a handle to standard input, output and error messages. 
+  - A malware can create a new process with the I/O handles bound to a socket through the attacker's machine, effectively providing a remote shell.
+
+Parent-Child Process
+: - Malware can create a new process that is a child of the malware process to execute malicious activities.
+: - An example from [this site](https://study-harder.qinguan.me/np/ict/matt/2-windows-malware/#downloaders):
+      - A malware (disguised as Minecraft) is downloaded onto the victim's computer
+      - While the "application" (also known as the parent process) runs, background processes (also known as child process) are also created
+      - These background processes can be malicious and could be deleting the victim data 
+
+> Many security solutions monitor the behaviour of the parent process / existing processes only. By creating a child process, the malware can evade detection.
+{: .prompt-info }
+
+### Key Loggers (Host-based Indicators)
+
+Key Loggers
+: - Malware that records keystrokes. 
+  - Keyloggers can be used to spy on users or steal sensitive information like passwords.
+
+**Methods of Key Logging**
+1. **Hooking**
+    - Hook: A mechanism that intercepts events, like keystrokes.
+    - Hook Procedure: A function that intercepts a particular type of event. It can act on each event it receives, and modify or discard it 
+    - API:
+   
+    | Function         | Description/Inferences                                                                                                                                                                                                  |
+    |:-----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | SetWindowsHookEx | When called with `WH_KEYBOARD`, it installs a hook procedure to relay the event to a (malicious) function each time a key is pressed.<br>When called with `WH_MOUSE`, it relays mouse messages (left-click/right-click) |
+   
+2. **Polling**
+    - Loop and Poll: Continuously checking the state of each key on the keyboard within a long-running loop.
+    - API:
+   
+    | Function         | Description/Inferences                                                  |
+    |:-----------------|:------------------------------------------------------------------------|
+    | GetAsyncKeyState | Retrieves the state of a specific key. <br>Used for polling keystrokes. |
