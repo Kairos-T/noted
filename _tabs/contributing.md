@@ -39,6 +39,11 @@ The following sections will guide you on how to create new notes, format the not
 - Notes are written in Markdown format, and follow the naming convention `YYYY-MM-DD-title.md`. `title` should be the
   content's (e.g. chapter) name.
 - The file should be placed in the `_posts` directory.
+- Alternatively, you could use the Jekyll Compose plugin to create a new post easily.
+  ```bash
+  bundle exec jekyll compose "_posts/post-title.md"
+  ```
+  - I might have screwed up some of the config, so you might have to manually edit the file name. But the front matter fields will be created nicely for you, you just need to fill in the blanks :)
 
 ## Front Matter
 
