@@ -312,7 +312,7 @@ We can see here that the malware tampers around with the creation of some dlls, 
 
 If we were to look at the contents of the log file, we can see that it logs the keystrokes and the titles of the windows that the user is interacting with.
 
-![Log File](3-3-Log.png)
+![Log File](3-3-log.png)
 
 ### Q6 - What do you think is the purpose of the malware?
 
