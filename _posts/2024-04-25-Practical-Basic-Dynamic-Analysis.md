@@ -251,3 +251,75 @@ What is the data being transferred? Which protocol?: `HTTP/1.1`
 ![Netcat](3-2-NetCat.png)
 
 It performs a GET request to /serve.html
+
+## Lab 03
+
+For this lab, we will be using the `Lab03-03.exe` file.
+
+### Q1 - What are the imported DLLs of this malware? 
+
+Using Dependency Walker, we can see that the malware only imports `KERNEL32.dll`. While this is an indicator that the malware is packed, we find that we can see many imported functions from `KERNEL32.dll`. So, it doesn't really seem that the malware is packed.
+
+![Dependency Walker](3-3-Dependency-Walker.png)
+
+### Q2 - Is the malware packed?
+
+As mentioned earlier, the malware might not be packed, as we can see many imported functions from `KERNEL32.dll`. 
+
+To double-check, we could use PEiD to scan the file.
+
+![PEiD](3-3-PEiD.png)
+
+We can see the compiler is `Microsoft Visual C++ 6.0`, which is a good indicator that the malware is not packed.
+
+So no, the malware is not packed.
+
+### Q3 - What happened when you execute the malware? What does the malware do before it exits?
+
+Before running the malware, set up the necessary monitoring tools (same as the previous labs). Though there isn't any network-based indicators, I'll still run ApateDNS and netcat just in case.
+
+When the malware is run, it starts a new process, `svchost.exe`, then exits.
+
+The way that the `svchost.exe` process is run is quite interesting.
+
+![Process Explorer](3-3-ProcessExplorer.png)
+
+It is run as a parent process, instead of being run as a child process under `System`. Thus, we should grab the PID of this process and check it out in Process Monitor later on.
+
+### Q4 - Using Process Explorer, examine the Strings in the malware, on disk and in memory.
+
+On disk, this malware doesn't have any red flags. It seems to be the real `svchost.exe` file.
+
+![Strings](3-3-StringsDisk.png)
+
+We can further confirm that it is the real `svchost.exe` file by verifying the digital signature.
+
+![ProcExVerify](3-3-ProcExVerify.png)
+
+HOWEVER, the verification only checks the file on DISK. This means that if the file was tampered with in memory, the verification would not detect it.
+
+![Strings](3-3-StringsMemory.png)
+
+In memory, we can see that the malware has some interesting strings, which seems like a set of rules for a keylogger.
+
+### Q5 - Does the malware create any file?
+
+We could go to Process Monitor and filter for the PID and `CreateFile` operation events.
+
+![Process Monitor](3-3-ProcMon.png)
+
+We can see here that the malware tampers around with the creation of some dlls, and also creates a file where the malware was run from called `practicalmalwareanalysis.log`.
+
+If we were to look at the contents of the log file, we can see that it logs the keystrokes and the titles of the windows that the user is interacting with.
+
+![Log File](3-3-Log.png)
+
+### Q6 - What do you think is the purpose of the malware?
+
+A keylogger :D
+
+## Conclusion
+
+That's it for this week's labs :) Hope y'all learnt something!! <3
+Peace out,
+A very tired Kairos
