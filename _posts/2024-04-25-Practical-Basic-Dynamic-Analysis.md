@@ -131,3 +131,7 @@ We saw earlier that the malware was trying to connect to `www.ngeeann-malwarepar
 ### Q8 - Use netcat to listen to port 443. What data is being transferred?
 
 We also saw this earlier, and I didn't rerun the netcat instance. We can't decipher the data since it's encrypted anyway.
+
+### Conclusion
+
+I completely forgot to take a screenshot of this, but the malware installs the vmx32to64.exe file, in the `C:\Windows\System32` directory. With the registry keys modified, the malware `vmx32to64.exe` will be executed on startup, and possibly connect to the server `www.ngeeann-malwareparalysis.com` for other malicious payloads. To gain further information on what the malware does, we need to analyse the `vmx32to64.exe` file, which is beyond the scope of this lab. 
