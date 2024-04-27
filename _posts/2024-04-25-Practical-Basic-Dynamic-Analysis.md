@@ -1,5 +1,5 @@
 ---
-title: "[MATT Wk 2] Windows Malware and Basic Static Analysis"
+title: "[MATT Wk 2] Practical - Basic Dynamic Analysis" 
 author: kairos
 categories: [ Malware Analysis Tools and Techniques, MATT Practical ]
 img_path: /assets/img/matt/basic-dynamic-analysis
