@@ -54,6 +54,80 @@ Since we know some information about the malware, we can proceed to the dynamic 
 
 - [ ] Process Monitor - To monitor file system changes
 - [ ] Process Explorer - To monitor processes
-- [ ] ApateDNS - To redirect DNS queries to localhost
+- [ ] ApateDNS - To redirect DNS queries to localhost (Note: In case you weren't listening in class, you have to change your preferred DNS server addr to 127.0.0.1)
 - [ ] Regshot (1st shot) - To monitor registry changes
 - [ ] Netcat - To listen for connections (80/443)
+
+![Set up](3-1-Setup.png)
+
+Right off the bat, there were a bunch of stuff going on. I'll go through them one by one.
+
+![Netcat](3-1-NetCat.png)
+
+On the netcat side, we see some data being transferred via port 443. Given that it's HTTPS, we can't see the data since it's encrypted. Nonetheless, this tells us that the malware is supposed to communicate with a server.
+
+![ApateDNS](3-1-ApateDNS.png)
+
+We can see that the malware is trying to connect to `www.ngeeann-malwareparalysis.com`
+
+If we were to look at Process Explorer and look at what processes the malware spawns (ctrl + L to see the lower pane):
+
+![Process Explorer](3-1-Mutant.png)
+
+We can see that the malware does indeed create a Mutex when it is running.
+
+> Malware utilises Mutexes to ensure that only one instance of the malware is running at any given time. This is to prevent multiple instances of the malware from running, which could lead to conflicts and unintended behaviour. 
+{: .prompt-info }
+
+### Q4 - Does the malware load any new DLLs when running?
+
+If we were to look at Process Monitor and filter for `Load Image` events, we can see that the malware does load a bunch of DLLs.
+
+![Process Monitor](3-1-Load-Image.png)
+
+Alternatively, we could look at Process Explorer and see the DLLs that the malware loads (Ctrl + D. To switch back to handles view: Ctrl + H). 
+
+![Process Explorer](3-1-Pex-DLL.png)
+
+### Q5 - Does the malware create any file? If so, what is the filename & location of the file?
+
+We could go to Process Monitor and filter for `CreateFile` operation events.
+
+![Process Monitor](3-1-Create-File.png)
+
+Here, we can see that the malware creates several DLLs in the `C:\Windows\System32` directory.
+
+> Malware often creates dlls in the System32 directory for persistence, stealth, or DLL hijacking (placing malicious dll with the same name to load it into legitimate processes instead of the "real" dll). 
+{: .prompt-info }
+
+### Q6 - What registry keys are being modified?
+
+To find out what registry keys are being modified, we could filter for `RegSetValue` in Process Monitor.
+
+![Process Monitor](3-1-RegSetValue.png)
+
+There are two keys that are being modified:
+
+`HKLM\SOFTWARE\Microsoft\Cryptography\RNG\Seed` and `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\VideoDriver`
+
+> Malware modifies the cryptographic seed to ensure that the random numbers generated are predictable. This could be used to generate encryption keys, which could be used to encrypt/decrypt data. 
+{: .prompt-info }
+
+> Malware modifies the `VideoDriver` key to ensure that it is executed when the system starts up (It is part of the `Run` keys, which allow programs to run automatically on startup).
+{: .prompt-info }
+
+Alternatively, we could take our second Regshot and compare it with the first one to see what registry keys have been modified.
+
+![Regshot](3-1-Regshot.png)
+
+It seems like there are more values detected by Regshot :O
+
+### Q7 - What DNS request is being made?
+
+We saw earlier that the malware was trying to connect to `www.ngeeann-malwareparalysis.com`. After running the malware for around 30+ minutes, we can see that the malware has been requesting `www.ngeeann-malwareparalysis.com` every 1m1s past a certain point. 
+
+![ApateDNS](3-1-ApateDNS2.png)
+
+### Q8 - Use netcat to listen to port 443. What data is being transferred?
+
+We also saw this earlier, and I didn't rerun the netcat instance. We can't decipher the data since it's encrypted anyway.
