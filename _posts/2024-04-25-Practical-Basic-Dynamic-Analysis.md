@@ -181,7 +181,7 @@ Looking more into some interesting imported functions:-
 
 To get a better idea of what the malware does / what we should pay attention to, we could use strings.
 
-![Strings](3-2-Strings.png)
+![Strings](3-2-strings.png)
 
 We can see that the malware is probably trying to connect to `ngeeann-malwareparalysis.com`. We should also look out for `svchost.exe` processes, as well as registry keys being modified. Additionally, the malware seems to be using `IPRIP` for some sort of communication with the/a server. 
 
