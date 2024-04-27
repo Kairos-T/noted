@@ -135,3 +135,119 @@ We also saw this earlier, and I didn't rerun the netcat instance. We can't decip
 ### Conclusion
 
 I completely forgot to take a screenshot of this, but the malware installs the vmx32to64.exe file, in the `C:\Windows\System32` directory. With the registry keys modified, the malware `vmx32to64.exe` will be executed on startup, and possibly connect to the server `www.ngeeann-malwareparalysis.com` for other malicious payloads. To gain further information on what the malware does, we need to analyse the `vmx32to64.exe` file, which is beyond the scope of this lab. 
+
+
+## Lab 02
+
+For this lab, we will be using `Lab03-02.dll`. As usual, we should first perform basic static analysis to gather some information about the file.
+
+### Basic Static Analysis + Q1 - What are the imported & exported functions of this DLL?
+
+Looking at Dependency Walker, we can see that the DLL imports a few dlls — `KERNEL32.dll`, `ADWAPI32.dll`, `WS2_32.dll`, `WININET.dll` and `MSVCRT.dll`. 
+
+![Dependency Walker](3-2-Dependency-Walker.png)
+
+We can also see that the DLL exports 5 functions. The most interesting ones would be `Install` and `InstallA`, which are probably going to be our entry points.
+
+Looking more into some interesting imported functions:-
+
+**KERNEL32.dll**
+![KERNEL32.dll](3-2-kerneldll.png)
+
+- `CreateProcessA` - Creates a new process and its primary thread. 
+- `GetCurrentDirectoryA` - Retrieves the current directory for the current process. This could be used to determine the current working directory of the malware.
+- `GetLastError` - Retrieves the calling thread's last-error code value. Interesting?
+- `GetModuleFileNameA` - Retrieves the full path and filename of the executable file of the current process. This could be used to determine the location of the malware.
+- ...
+- `ReadFile` - Reads data from a file, starting at the position indicated by the file pointer. 
+- `Sleep` - Suspends the execution of the current thread for a specified interval. This could be used to delay the execution of the malware - a common evasion technique for sandbox environments!
+
+**ADWAPI32.dll**
+![ADWAPI32.dll](3-2-adwapi32dll.png)
+
+- `RegCloseKey` / `RegCreateKeyA` / `RegOpenKeyExA` / `RegQueryValueExA` / `RegSetValueExA` - Functions related to registry manipulation.
+
+**WS2_32.dll**
+![WS2_32.dll](3-2-ws232dll.png)
+
+- `WSASocketA` - Creates a socket! This could be used to establish a connection to a remote server.
+
+**WININET.dll**
+![WININET.dll](3-2-wininetdll.png)
+
+- `HttpOpenRequestA` / `HttpQueryInfoA` / `HttpSendRequestA` - Functions related to HTTP requests. This could be used to communicate with a remote server.
+- `InternetConnectA` / `InternetOpenA` - Functions related to internet connections, probably used to establish a connection to a remote server.
+- `InternetReadFile` - Reads data from the specified file/URL/directory.
+
+To get a better idea of what the malware does / what we should pay attention to, we could use strings.
+
+![Strings](3-2-Strings.png)
+
+We can see that the malware is probably trying to connect to `ngeeann-malwareparalysis.com`. We should also look out for `svchost.exe` processes, as well as registry keys being modified. Additionally, the malware seems to be using `IPRIP` for some sort of communication with the/a server. 
+
+### Q2 - How do you install the malware? How do you run it after installing it?
+
+Since the malware is a DLL, we can't run it directly. Instead, we have to use the `rundll32` command to run the DLL. 
+
+Before running the DLL, set up the necessary monitoring tools (same as Lab 01).
+
+The way to install the malware is to run the following commands: 
+
+```powershell
+rundll32.exe Lab03-02.dll,Install
+net start iprip
+```
+
+The command line would look something like this:
+
+![Install](3-2-run.png)
+
+### Q3 - What important functions are imported in the DLL?
+
+Hey, we already did this in the basic static analysis :)
+
+### Q4 - Using Process Explorer, find the process under which the malware is running.
+
+Initially, I thought the malware would show up as a separate process on its own, like it did in lab 03-01. Unfortunately, that didn't show up. However, ApateDNS and netcat did show some activity, so I knew the malware was definitely running.
+
+![ApateDNS](3-2-ApateDNS.png)
+
+Earlier on, we saw that the strings of the malware had `svchost.exe` in it. Looking at Process Explorer, I saw that there were multiple instances of `svchost.exe` running. I hovered over each of them to see the command line arguments, and saw an interesting one.
+
+![Process Explorer](3-2-ProcessExplorer.png)
+
+The command line argument is quite similar to what we saw in the malware, and there's suspiciously many services running under this `svchost.exe` process. This is probably the process under which the malware is running.
+
+I also found out you could just search for the DLL name in Process Explorer, and it would show you the process that is running the DLL. 
+
+![Process Explorer Search](3-2-ProcessExplorerSearch.png)
+
+### Q5 - Set a filter in Process Monitor to monitor the operations of the process identified in Q4.
+
+Since we know the process that the malware is running under, we can set a filter for the PID (1196).
+
+### Q6 - What are some host-based indicators?
+
+I got distracted halfway through this lab and left the malware running, so I had way too many logs, and I couldn't filter them without having ProcMon complaining. 
+
+Anyway, I took a Regshot before running the malware. So, I could just take the 2nd shot and compare. There were a few things that caught my eye.
+
+![Regshot](3-2-IPRIP.png)
+
+The malware added the IPRIP service, as expected. It also seems to be adding the dll into the IPRIP parameters, possibly for persistence.
+
+Other than the service, the malware also modified the cryptographic seed, as like in the previous lab.
+
+![Regshot](3-2-seed.png)
+
+### Q7 - What network-based indicators?
+
+Domain: `www.ngeeann-malwareparalysis.com`
+
+Port: `80`
+
+What is the data being transferred? Which protocol?: `HTTP/1.1`
+
+![Netcat](3-2-NetCat.png)
+
+It performs a GET request to /serve.html
