@@ -134,7 +134,10 @@ We also saw this earlier, and I didn't rerun the netcat instance. We can't decip
 
 ### Conclusion
 
-I completely forgot to take a screenshot of this, but the malware installs the vmx32to64.exe file, in the `C:\Windows\System32` directory. With the registry keys modified, the malware `vmx32to64.exe` will be executed on startup, and possibly connect to the server `www.ngeeann-malwareparalysis.com` for other malicious payloads. To gain further information on what the malware does, we need to analyse the `vmx32to64.exe` file, which is beyond the scope of this lab. 
+![vm32to64](3-1-vm32to64.png)
+_Side note: The PID is different here coz I restarted the lab,, I forgot to take this screenshot the first time round_
+
+The malware installs the vmx32to64.exe file, in the `C:\Windows\System32` directory. With the registry keys modified, the malware `vmx32to64.exe` will be executed on startup, and possibly connect to the server `www.ngeeann-malwareparalysis.com` for other malicious payloads. To gain further information on what the malware does, we need to analyse the `vmx32to64.exe` file, which is beyond the scope of this lab. 
 
 
 ## Lab 02
