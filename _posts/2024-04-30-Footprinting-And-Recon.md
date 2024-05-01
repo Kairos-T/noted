@@ -125,3 +125,77 @@ tracert <domain>
 traceroute <domain>
 ```
 
+## Lab 9: Footprinting Through Footprinting Tools
+
+Gather additional information on target
+
+### Task 1: Recon-ng:
+
+**Set-up**
+```sh
+# SET-UP
+sudo su; cd
+recon-ng
+> marketplace install all
+> workspaces create <name>
+> db insert domains
+    domain (TEXT): <domain>
+```
+
+**Hosts Recon**
+```sh
+
+> modules load recon/domains-hosts/brute_hosts # brute force subdomains
+> run
+> modules load recon/hosts-hosts/reverse_resolve # reverse resolve IP to hostname
+> run
+> show hosts
+```
+
+Dumping Hosts Recon data
+```sh
+> modules load reporting/html
+> options set CREATOR <name>
+> options set CUSTOMER <name>
+> run # generated report is in /home/attacker/Desktop/
+```
+
+### Task 2: Maltego
+
+Gather maximum information on target using transforms and visualises the information in a graph format.
+
+```sh
+sudo maltego # Use Maltego CE (Free)
+```
+
+Steps:
+1. Default System Browser > Privacy Mode: Normal > Open a blank graph...
+2. Entity Palette > Website > Change Domain Name
+3. Right-click > Run Transform > To: All 
+4. Right-click > Run Transforms > Any Tool Required
+
+### Task 3: OSRFramework
+
+OSRFramework
+: A set of tools to perform OSINT tasks like social media harvesting, deep web search, etc.
+
+**domainify**
+Checks existence of domain names, e.g. eccouncil.com, eccouncil.org, eccouncil.net, etc.
+
+```sh
+sudo su; cd
+domainify -n <domain> -t all
+```
+
+**searchfy**
+Searches user details on different social media platforms.
+
+```sh
+searchfy -n <username>
+```
+
+Other tools:
+- `usufy` - Registered accounts with usernames
+- `mailfy` - Email addresses
+- `phonefy` - Phone numbers
+- `entify` - Entities from provided URLs
