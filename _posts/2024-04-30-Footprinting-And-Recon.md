@@ -4,7 +4,7 @@ title: '[EH Wk 1] Footprinting and Reconnaissance'
 date: 2024-04-30 22:35 +0800
 author: kairos
 categories: [ Ethical Hacking, Notes ]
-img_path: "/assets/img/eh"
+img_path: "/assets/img/eh/w1"
 ---
 
 ## Introduction
@@ -199,3 +199,35 @@ Other tools:
 - `mailfy` - Email addresses
 - `phonefy` - Phone numbers
 - `entify` - Entities from provided URLs
+
+## Task 4: FOCA Footprinting
+
+FOCA
+: Reveals metadata and hidden information in scanned documents on websites - found from Google, Bing, and DuckDuckGo.
+
+Create a new project > Add target Domain website > Add all search engines + extensions > Search all
+
+## Task 5: BillCipher Footprinting
+
+BillCipher
+: An information gathering tool for a website or IP address. Gathers information such as GeoIP (IP addr location), DNS, Whois, etc.
+
+**Run**
+
+```sh
+sudo su
+cd BillCipher # (/home/attacker)
+python3 billcipher.py
+```
+
+- Enter target domain/IP address
+- Choose type of information to gather
+
+![BillCipher](billcipher.png)
+
+## Task 6: OSINT Framework
+
+(T) - Indicates a link to a tool that must be installed and run locally
+(D) - Google Dork
+(R) - Requires registration
+(M) - Indicates a URL that contains the search term and the URL itself must be edited manually
