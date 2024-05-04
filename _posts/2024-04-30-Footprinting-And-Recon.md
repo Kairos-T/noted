@@ -132,6 +132,7 @@ Gather additional information on target
 ### Task 1: Recon-ng:
 
 **Set-up**
+
 ```sh
 # SET-UP
 sudo su; cd
@@ -143,6 +144,7 @@ recon-ng
 ```
 
 **Hosts Recon**
+
 ```sh
 
 > modules load recon/domains-hosts/brute_hosts # brute force subdomains
@@ -153,6 +155,7 @@ recon-ng
 ```
 
 Dumping Hosts Recon data
+
 ```sh
 > modules load reporting/html
 > options set CREATOR <name>
@@ -169,9 +172,10 @@ sudo maltego # Use Maltego CE (Free)
 ```
 
 Steps:
+
 1. Default System Browser > Privacy Mode: Normal > Open a blank graph...
 2. Entity Palette > Website > Change Domain Name
-3. Right-click > Run Transform > To: All 
+3. Right-click > Run Transform > To: All
 4. Right-click > Run Transforms > Any Tool Required
 
 ### Task 3: OSRFramework
@@ -195,6 +199,7 @@ searchfy -n <username>
 ```
 
 Other tools:
+
 - `usufy` - Registered accounts with usernames
 - `mailfy` - Email addresses
 - `phonefy` - Phone numbers
@@ -210,7 +215,8 @@ Create a new project > Add target Domain website > Add all search engines + exte
 ## Task 5: BillCipher Footprinting
 
 BillCipher
-: An information gathering tool for a website or IP address. Gathers information such as GeoIP (IP addr location), DNS, Whois, etc.
+: An information gathering tool for a website or IP address. Gathers information such as GeoIP (IP addr location), DNS,
+Whois, etc.
 
 **Run**
 
@@ -227,7 +233,7 @@ python3 billcipher.py
 
 ## Task 6: OSINT Framework
 
-(T) - Indicates a link to a tool that must be installed and run locally
-(D) - Google Dork
-(R) - Requires registration
-(M) - Indicates a URL that contains the search term and the URL itself must be edited manually
+- (T) - Indicates a link to a tool that must be installed and run locally
+- (D) - Google Dork
+- (R) - Requires registration
+- (M) - Indicates a URL that contains the search term and the URL itself must be edited manually
