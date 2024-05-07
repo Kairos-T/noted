@@ -7,7 +7,7 @@ categories: [ Malware Analysis Tools and Techniques, MATT Notes ]
 img_path: "/assets/img/matt/assembly"
 ---
 
-## Introduction
+# Introduction
 
 Assembly language (ASM) is a low-level programming language, a representation of machine language. It is obtained from
 the disassembly of machine code.
@@ -48,9 +48,9 @@ Flow of Execution:
 > The order of these sections may vary depending on the OS, compiler, and program due to memory management strategies.
   {: .prompt-info }
 
-## Assembly Instructions
+# Assembly Instructions
 
-### Syntax
+## Syntax
 
 Instruction Format:
 
@@ -87,7 +87,7 @@ Each instruction corresponds to `opcodes`, which are the machine code representa
 - **Opcode Operands**: Machine code representation of the instruction (e.g., `B9`)
 - **Memory Address Operands**: Specific location in memory denoted by register, value or equation between brackets (E.g.: `[eax]`).
 
-### Registers 
+## Registers 
 
 Register
 : Small, high-speed data storage locations in the CPU for temporary storage and manipulation of data. 
@@ -100,7 +100,7 @@ Register
 - **Status Flags**: Makes decisions based on the result of operations (e.g., zero flag, carry flag)
 - **Instruction Pointer (IP)**: Stores address of the next instruction to be executed
 
-**General Purpose Registers:**
+### **General Purpose Registers:**
 
 Some instructions use specific registers by definition
 - EDX: Division 
@@ -109,9 +109,83 @@ Some instructions use specific registers by definition
 - ESI, EDI and ECX: Used in repeat instructions
 - ESI, EDI: Store memory addresses
 
-Referencing Registers
+### Referencing Registers
 
 ![Register Reference](referencing.png)
 
+- E[]X references 32 bits
+- []X references 16 bits
+- []L references the lower 8 bits of the []X
+- []H references the upper 8 bits
+
 > There is no direct way to reference the upper 16 bits as it is unnecessary. ([Ref](https://stackoverflow.com/questions/28429609/why-arent-the-higher-16-bits-in-eax-accessible-by-name-like-ax-ah-and-al))
 {: .prompt-info }
+
+### **Status Register**
+
+EFLAGS
+: 32-bit register that stores the status flags.
+
+- Flags that are set based on the result of an operation. Used to make decisions in the program.
+- Each bit is a flag that is set to 0 (clear) or 1 (set).
+
+| Flag            | Description / Use Cases                                                                                    |
+|:----------------|:-----------------------------------------------------------------------------------------------------------|
+| Zero Flag (ZF)  | Set when result of an operation is 0                                                                       |
+| Carry Flag (CF) | Set when there is a carry out of the most significant bit. <br>E.g.: Overflow of unsigned integer addition | 
+| Sign Flag (SF)  | Set when the result of an operation is negative or when MSB is set                                         |
+| Trap Flag (TF)  | Used for debugging, CPU will single step                                                                   |
+
+> Status flags just indicate various conditions that relate to the result of an operation. <br>For instance, the CF indicates if a carry/borrow operation occurred, but does NOT store the actual value of the carry/borrow. 
+{: .prompt-info }
+
+> An example of the use of the CF when adding two values: <br>
+  `11111111`  (255) <br>
+  `00000001`  (1) <br>
+  ----------------- <br>
+  `00000000`  (0) with a carry of 1 (true) <br>
+{: .prompt-tip }
+
+### **Instruction Pointer (IP)**
+
+- Stores the memory address of the next instruction to be executed.
+- EIP (Extended Instruction Pointer) is used in 32-bit mode.
+- Attackers can manipulate the IP to redirect the flow of execution to malicious code.
+
+## Data Allocation 
+
+| Directive              | Size     | Example      | Description                                                                                                                           |
+|:-----------------------|:---------|:-------------|:--------------------------------------------------------------------------------------------------------------------------------------|
+| DB (Define Byte)       | 1 byte   | var DB 64    | Define a byte referred to as location `var` containing the value `64`                                                                 |
+| DW (Define Word)       | 2 bytes  | var2 DW ?    | Defines a 2-byte unintialised value referred to as location `var2`                                                                    |
+| DD (Define Doubleword) | 4 bytes  | DD 10        | Defines 4-byte, containing the value `10`. <br/>It's location is var2 + 2 bytes (location is saved relative to the previous variable) |
+| DQ (Define Quadword)   | 8 bytes  | X DQ 100     | Defines 8-byte, referred to as location `X` containing the value `100`                                                                |
+| DT (Define Ten Bytes)  | 10 bytes | val DT 12345 | Defines 10-byte variable referred to as location `val` containing the value `12345`                                                   |
+
+> The `?` symbol is used to denote an uninitialized variable. 
+{: .prompt-info }
+
+> When defining variables, you are essentially reserving memory space for it. <br> If you allocate an 8-byte variable, for instance, to the value `100`, it will be stored as `64 00 00 00 00 00 00 00` in memory (or 0x64).  
+{: .prompt-tip }
+
+**Multiple Definitions / Expression Definition**
+- Defining multiple variables at once
+
+  ```asm
+  var1 DB 1, 2, 3, 4, 5 
+  ; Defines a series of 5 bytes. 
+  ; var1 now acts as a label for the list of bytes.
+  ```
+- Defining a string
+
+  ```asm
+  msg DB 'Hello', 0
+  ; Defines a string of characters, terminated by a null byte.
+  ```
+
+- Defining an expression
+
+  ```asm
+  size equ 50 * 2
+  ; Defines an expression, size, which is equated during assembly
+  ```
