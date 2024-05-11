@@ -54,10 +54,10 @@ Flow of Execution:
 
 Instruction Format:
 
-|            | Mnemonic                                             | Destination Operand                                             | Source Operand                                               |
-|:-----------|:-----------------------------------------------------|:----------------------------------------------------------------|:-------------------------------------------------------------|
-| Definition | Operation to be performed, e.g., `mov`, `add`, `sub` | Destination register/memory location where the result is stored | Source register/memory location where the value is read from |
-| Example    | `mov`                                                | `eax`                                                           | `0x42`                                                       |
+|            | Mnemonic                                                | Destination Operand                                             | Source Operand                                               |
+|:-----------|:--------------------------------------------------------|:----------------------------------------------------------------|:-------------------------------------------------------------|
+| Definition | Operation to be performed<br/>E.g., `mov`, `add`, `sub` | Destination register/memory location where the result is stored | Source register/memory location where the value is read from |
+| Example    | `mov`                                                   | `eax`                                                           | `0x42`                                                       |
 
 Each instruction corresponds to `opcodes`, which are the machine code representation of the instruction.
 
@@ -189,3 +189,39 @@ EFLAGS
   size equ 50 * 2
   ; Defines an expression, size, which is equated during assembly
   ```
+
+**Reference**
+
+![Data Allocation Reference](directives.png)
+
+### Data Allocation Directives in Asm vs C
+
+| Asm Directive | C Equivalent                      |
+|:--------------|:----------------------------------|
+| DB            | char                              |
+| DW            | int, unsigned int                 |
+| DD            | long, float                       |
+| DQ            | double                            |
+| DT            | internal intermediate float value | 
+
+## Assembly Program Structure
+
+> The order of the sections are not strictly fixed, but there is a general structure that is followed. 
+{: .prompt-info }
+
+**General Structure**
+
+```asm
+.const          ; Defines read-only values / strings
+
+.stack          ; Defines stack segment (memory for storing temp data, func calls, etc.).
+ 
+.data           ; Defines initialised data that are modifiable (rw)
+
+.code / .text   ; Contains executable code / instructions
+_main PROC      ; Entry pt of he program. PROC indicates start of procedure (function)
+    ; Code      ; Note: Main func is in the .code/.text section, they are not two separate sections!
+    ret         ; Return from the main function
+_main ENDP      ; End of the _main procedure
+END _main       ; End of [entry point] 
+```
