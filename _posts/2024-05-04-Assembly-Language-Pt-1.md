@@ -225,3 +225,91 @@ _main PROC      ; Entry pt of he program. PROC indicates start of procedure (fun
 _main ENDP      ; End of the _main procedure
 END _main       ; End of [entry point] 
 ```
+
+## Assembly Instructions
+
+### Data Movement 
+
+Move Instruction (MOV)
+: Copies data from source to destination (i.e. instruction for reading and writing to memory). <br> Syntax: `mov destination, source`
+
+![MOV Instruction](movinstructions.png)
+
+### Load Effective Address (LEA)
+
+Load Effective Address (LEA)
+: Used to load/calculate the memory address of a variable and store it in a register. <br> Syntax: `lea destination, source`
+
+| Instruction                  | Description                                                                               |
+|:-----------------------------|:------------------------------------------------------------------------------------------|
+| `lea ax, [bx]`               | Loads address of `bx` into `ax` register.                                                 |
+| `lea bx, [bx+3]`             | Stores the address that points to a location 3 bytes ahead of the original`bx` into `bx`. |
+| `lea ecx, [0 + 4*eax + eax]` | Multiplies the value in `eax` by 5 and stores it in `ecx`.                                |
+
+> LEA does not load the data stored at the memory address into the register, but rather it loads the address itself!
+{: .prompt-info }
+
+### Arithmetic Operations
+
+Simple Operations
+: Syntax: `op, destination, source`
+
+
+| Instruction Examples | Description                                   |
+|:---------------------|:----------------------------------------------|
+| `add eax, ebx`       | Adds EBX to EAX and stores the result in EAX. |
+| `sub eax, 0x10`      | Subtracts 0x10 from EAX.                      |
+| `inc edx`            | Increments the value in EDX by 1.             |
+| `dec ecx`            | Decrements the value in ECX by 1.             |
+
+
+**Multiplication and Division**
+- Requires the use of specific registers!
+
+> `mul` and `div` operate on unsigned integers only. 
+{: .prompt-warning }
+
+Multiplication
+- `mul` implicitly uses `eax` as the destination register.
+- The processor knows to take in the value in `eax` and multiply it by the source operand.
+- Example:
+  ```asm
+  mov ax, 10    ; Move 10 into ax, i.e. AX=10
+  mov bx, 3     ; Move 3 into bx, i.e. BX=3
+  mul bx        ; AX = AX * BX = 10 * 3 = 30
+  ```
+
+Division
+- `div` implicitly uses `edx:eax`; `eax` stores the quotient, `edx` stores the remainder.
+- Example:
+  ```asm
+  mov eax, 10   ; Move 10 into eax
+  mov ebx, 3    ; Move 3 into ebx
+  div ebx       ; EAX = EAX / EBX = 10 / 3 = 3 (quotient)
+                ; EDX = 1 (remainder)
+  ```
+
+### Logical Operations
+
+| Instructions   | Description/Example                                                                                                                                                              |
+|:---------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `xor eax, eax` | Clears the value in `eax`                                                                                                                                                        |   
+| `or eax, 0x10` | Bitwise OR with `0x10`                                                                                                                                                           |
+| `shl eax, 1`   | Shift left by x number of bits. <br/>Vacant positions are filled with zeros, shifted out bits are discarded. <br> E.g.: <br/>mov eax, 1<br> shl eax, 1<br/> 0001 (1) -> 0010 (2) |
+| `shr eax, 1`   | Shift right by x number of bits                                                                                                                                                  |
+| `ror eax, 1`   | Rotates bits right by x number of bits. <br>Bits shifted out are circularly inserted back into the leftmost positions.                                                           |
+
+> The difference between `shift` and `rotate` is that shift discards the bits shifted out and fills vacant positions with zeros, while rotate inserts the bits shifted out back, meaning no bits are lost. 
+{: .prompt-info }
+
+### NOP / INT Instructions
+
+NOP
+: No operation. Used for padding, debugging, etc. <br> Syntax: `nop`
+- OPCode: `0x90`
+- Attackers can use this for buffer overflow attacks.
+
+INT
+: Software interrupt. Used to invoke a software interrupt handler. <br> Syntax: `int n`
+- `n` is the interrupt number.
+- E.g., `int 21H` invokes the DOS interrupt handler.
