@@ -3,7 +3,7 @@ layout: post
 title: '[EH Wk 1] Footprinting and Reconnaissance'
 date: 2024-04-30 22:35 +0800
 author: kairos
-categories: [ Ethical Hacking, EH Notes ]
+categories: [ Ethical Hacking, EH Commands ]
 img_path: "/assets/img/eh/w1"
 ---
 
