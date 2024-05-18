@@ -78,6 +78,16 @@ img_path: "/assets/img/eh/w1"
 6. Command and Control (C2)
 7. Actions on Objectives
 
+## Tactics, Techniques, and Procedures (TTPs)
+
+1. Tactics:
+    - Guidelines on the way(s) an attacker conducts an attack
+    - Tactics exist for different stages of an attack (e.g. initial exploitation, privilege escalation, lateral movement, etc.
+2. Techniques:
+    - Technical methods employed by an attacker
+    - Includes initial exploitation, setting up C2 servers, and accessing target infrastructure.
+3. Procedures:
+
 ## MITRE ATT&CK Framework
 
 1. Reconnaissance
