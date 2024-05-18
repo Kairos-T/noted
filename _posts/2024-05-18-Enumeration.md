@@ -6,9 +6,7 @@ author: galen
 categories: [ Ethical Hacking, EH Notes ]
 ---
 
-# Module 04: Enumeration
-
-## What is Enumeration?
+# Enumeration
 
 - Creating active connections with target to perform directed queries to garner information from responses
 - Identify points for a system attack
