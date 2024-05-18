@@ -50,7 +50,7 @@ categories: [ Ethical Hacking, EH Notes ]
 
 - Used to synchronize clocks of networked computers
 - Port 123 and UDP used by default
-- Can be queried to extract connected hosts, client IP addresses, and possibly internal Ips, if server is in DMZ
+- Can be queried to extract connected hosts, client IP addresses, and possibly internal IPs, if server is in DMZ
 
 ## Simple Mail Transfer Protocol (SMTP) Enumeration
 
@@ -59,6 +59,7 @@ categories: [ Ethical Hacking, EH Notes ]
     1.	VRFY: Validates users
     2.	EXPN: Retrieve actual delivery addresses of aliases, and mailing list
     3.	RCPT TO: Defines recipients of email
+- Attackers can use these commands to validate users, as they have differentt responses
 
 ## Domain Name System (DNS) Enumeration
 
