@@ -93,6 +93,8 @@ img_path: "/assets/img/eh/w5"
 - A random string of characters that are added to password before hash calculations
 - Makes it difficult to reverse hash of pre-computed password: hash pairs
 
+---
+
 ## Vulnerability Exploitation
 
 Execution of multiple complex, interrelated steps to breach remote systems
@@ -142,6 +144,8 @@ Buffer Overflow
 ## Exploit/Vulnerability Chaining
 - Process of combining multiple vulnerabilities to exploit a system and gain root access
 
+---
+
 # Pt 2: Privilege Escalation
 
 After an attacker gets a non-admin user account, the next step is to gain admin privileges to view critical information, delete files, or install malware. This can be caused by design flaws, bugs, and configuration oversights.
@@ -155,6 +159,8 @@ Expanding access rights by gaining access to other user accounts on the same pri
 ### Vertical Privilege Escalation
 
 Exploiting vulnerabilities/misconfigurations to gain admin/root access for complete control over the system.
+
+---
 
 ## Privilege Escalation Methods
 
@@ -234,6 +240,8 @@ Attackers may modify domain settings by changing the group policy and trust rela
 Similar to DLL Hijacking for Windows.
 
 **Tools/Defence:** Dylib Hijack Scanner
+
+---
 
 ## Privilege Escalation Defences
 
