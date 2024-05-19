@@ -182,6 +182,7 @@ For this lab, we will be using the `Lab01-02.exe` file.
 As before, we can use `PEiD` to determine if the file is packed.
 
 1. Open `PEiD` and load the `Lab01-02.exe` file.
+
    ![PEiD Lab01-02.exe](1-2-PEiD.png)
 2. Here, we can see a few indicators that the file is packed:
   - The "Entrypoint" and "File Offset" values do not match, meaning that the file might be packed.
