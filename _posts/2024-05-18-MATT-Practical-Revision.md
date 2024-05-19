@@ -9,7 +9,7 @@ img_path: "/assets/img/matt"
 
 ## Basic Static Analysis
 
-### PeID
+### PEiD
 
 - Packer detection (goofy ahh string = packed)
 - Contains a plugin to unpack UPX
@@ -36,6 +36,14 @@ img_path: "/assets/img/matt"
 
 ## Basic Dynamic Analysis
 
+### Running DLLs
+
+- Syntax: `rundll32.exe <dll>,<entrypoint>`, e.g. `rundll32.exe malware.dll,Install`
+
+### Starting Services
+
+- Syntax: `net start <service>`, e.g. `net start iprip`
+
 ### Process Explorer
 
 - Lists all the processes that are running
@@ -46,3 +54,13 @@ img_path: "/assets/img/matt"
 - List of events that occurred
 - Filter allow you to see app-specific events
 - Keep a lookout for file I/O and registry edits
+
+### Network Monitor (Netcat)
+
+- Captures network traffic for specific ports
+- `nc -l -p <port>` - Usually 80/443
+
+### Registry Monitor (Regshot)
+
+- Monitors registry changes
+- Take a snapshot before and after running the binary
