@@ -57,10 +57,11 @@ img_path: "/assets/img/eh/w1"
 3. Enumeration
 4. Vulnerability Analysis
 5. System Hacking
-  - Gaining Access
-  - Escalating Privileges
-  - Maintaining Access
-  - Clearing Logs
+
+- Gaining Access
+- Escalating Privileges
+- Maintaining Access
+- Clearing Logs
 
 ## Cyber Kill Chain Methodology
 
@@ -82,11 +83,13 @@ img_path: "/assets/img/eh/w1"
 
 1. Tactics:
     - Guidelines on the way(s) an attacker conducts an attack
-    - Tactics exist for different stages of an attack (e.g. initial exploitation, privilege escalation, lateral movement, etc.
+    - Tactics exist for different stages of an attack (e.g. initial exploitation, privilege escalation, lateral movement,
+      etc.)
 2. Techniques:
     - Technical methods employed by an attacker
     - Includes initial exploitation, setting up C2 servers, and accessing target infrastructure.
 3. Procedures:
+    - Organisational approach that threat actors follow
 
 ## MITRE ATT&CK Framework
 
@@ -104,12 +107,14 @@ img_path: "/assets/img/eh/w1"
 _Ref: [Trellix](https://www.trellix.com/en-us/img/newsroom/stories/archives/ryuk-exploring-the-human-connection-1.jpg)_
 
 - Used to identify clusters of events that are correlated to any system intrusion
+
 1. **Adversary**: Entity **who** was behind an attack
 2. **Victim**: Location **where** exploitation occurred or target that was attacked
 3. **Capability**: **How** the attack was performed or strategies used, e.g. skills
 4. **Infrastructure**: **What** was used to perform the attack, e.g. C2 servers, malware, etc.
 
 # Types of Hackers
+
 1. **Black Hat**: Illegal, unethical hacking
 2. **White Hat**: Legal hackers, using skills for defensive purposes
 3. **Grey Hat**: Works both offensively and defensively
