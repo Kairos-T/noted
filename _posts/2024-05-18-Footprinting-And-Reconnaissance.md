@@ -7,9 +7,11 @@ categories: [ Ethical Hacking, EH Notes ]
 ---
 
 # Footprinting
+
 **Footprinting**
 - The first step in the attack framework.
 - Collecting information about the target network.
+- Only OSINT, no scanning or probing.
 
 **Information Obtained in Footprinting**
 
