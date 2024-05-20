@@ -24,9 +24,11 @@ categories: [ Ethical Hacking, EH Notes ]
 
 ## Common service + Associated Ports to Enumerate (More can be found in slides)
 
-- 53: Domain Name System (DNS Zone Transfers)
-- 22: Secure Shell (SSH)
 - 21: File Transfer Protocol (FTP)
+- 22: Secure Shell (SSH)
+- 25: Simple Mail Transfer Protocol (SMTP)
+- 53: Domain Name System (DNS Zone Transfers)
+- 123: Network Time Protocol (NTP)
 - 139: Netbios Session Service (SMB over NetBIOS)
 
 ## Simple Network Management Protocol (SNMP) Enumeration
@@ -63,8 +65,6 @@ categories: [ Ethical Hacking, EH Notes ]
 
 - Performed through exploiting DNS Zone transfers
 - DNS server names, hostnames, usernames, aliases can be obtained
-
-<br>
 
 ### **IPsec, VoIP, Unix/Linux, Telnet, FTP, TFTP, SMB, IPV6 and BGP enumeration can be found in slides**
 
