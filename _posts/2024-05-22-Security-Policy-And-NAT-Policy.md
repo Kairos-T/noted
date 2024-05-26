@@ -29,7 +29,7 @@ session.
 **Flows**
 
 - Single Flow: Multicast traffic (from one source to multiple destinations)
-- Two Flows: Unicast raffic / TCP traffic (from one source to one destination)
+- Two Flows: Unicast traffic / TCP traffic (from one source to one destination)
 
 ## Security Policy Rule Types and Attributes
 
