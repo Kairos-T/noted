@@ -86,7 +86,7 @@ img_path: "/assets/img/ns/w6"
 
 ## File Blocking Overview
 
-- Prevent introduction of malicios data
+- Prevent introduction of malicious data
 - Prevent sensitive data from being breached
 - Information is logged to Data Filtering Log  
 
@@ -165,12 +165,12 @@ img_path: "/assets/img/ns/w6"
 
 ## URL Category: Policy Versus Profile
 
-| **URL Category in a Policy**                        | **URL Filtering Security Profile**                                      |
-|-----------------------------------------------------|-------------------------------------------------------------------------|
-| Used as a match condition                           | Applied to traffic allowed by Security policy                           |
-| URLs matched to predefined or custom URL categories | URLs matched to predefined or custom URL categories                     |
-| Action determined in the policy rule                | Action more granularly configured for individual URLs or URL categories |
-| URL category name logged in the URL Filtering log   | URL details logged in the URL Filtering log                             |
+| **URL Category in a Policy**                         | **URL Filtering Security Profile**                                       |
+|:-----------------------------------------------------|:-------------------------------------------------------------------------|
+| Used as a match condition                            | Applied to traffic allowed by Security policy                            |
+| URLs matched to predefined or custom URL categories  | URLs matched to predefined or custom URL categories                      |
+| Action determined in the policy rule                 | Action more granularly configured for individual URLs or URL categories  |
+| URL category name logged in the URL Filtering log    | URL details logged in the URL Filtering log                              |
 
 ## URL Filtering Security Profile
 
