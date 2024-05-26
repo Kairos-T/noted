@@ -20,19 +20,21 @@ img_path: "/assets/img/ns/w6"
 
 ## Security Policy with Security Profiles
 - Basically second layer of defence for traffic that may slip through security policy rules
+
 > Security profiles only apply to security policy rules that are configured with the "Allow" action.  
+{: .prompt-tip}
 
 ![Security Policies with Security Profiles](security-policy-with-security-profiles.png)
 
 ## Security Profile Types 
 
-1. Antivirus: Detects infected files being transferred with the application
-2. Anti-Spyware: Detects spyware downloads and traffic from already installed spyware
-3. Vulnerability Protection: Detects attempts to exploit known software vulnerabilities
-4. URL Filtering: Classifies and controls web browsing based on content
-5. File Blocking: Tracks and blocks file uploads and downloads based on file type and application (Sussy zip/exe files from sussy sites )
-6. Data Filtering: Identifies and blocks transfer of specific data patterns found in network traffic (Could be used to secure sensite data like credit card information)
-7. WildFire Analysis: Forwards unknown files to the WildFire service for malware analysis
+1. **Antivirus**: Detects infected files being transferred with the application
+2. **Anti-Spyware**: Detects spyware downloads and traffic from already installed spyware
+3. **Vulnerability Protection**: Detects attempts to exploit known software vulnerabilities
+4. **URL Filtering**: Classifies and controls web browsing based on content
+5. **File Blocking**: Tracks and blocks file uploads and downloads based on file type and application (Sussy zip/exe files from sussy sites )
+6. **Data Filtering**: Identifies and blocks transfer of specific data patterns found in network traffic (Could be used to secure sensite data like credit card information)
+7. **WildFire Analysis**: Forwards unknown files to the WildFire service for malware analysis
 
 # Antivirus, Anti-Spyware, and Vulnerability Profiles
 - Threat Log
@@ -49,7 +51,7 @@ img_path: "/assets/img/ns/w6"
 
 ![Default Antivirus Security Profile](default-antivirus-security-profile.png)  
 - Protects against viruses, worms, trojans, and spyware installations
-- Malware prevention engine that analyses packets as the arrive, using a stream-based approach 
+- Malware prevention engine that analyses packets as they arrive, using a stream-based approach 
 - Default action varies based on protocol, such as reset-both for FTP, HTTP, and SMB.
 - Default anti-virus security profile is **Read Only** (Cannot be deleted or modified )
 - Actions include:
@@ -130,18 +132,18 @@ img_path: "/assets/img/ns/w6"
 
 1. Security Policy Rules:  
 
-- Enable control of traffic by allowing or blocking it on the network.
+   - Enable control of traffic by allowing or blocking it on the network.
 
 2. Security Profiles:  
 
-- Define "allow but scan" rules to scan allowed applications for threats like viruses, malware, spyware, and DDOS attacks.
-Applied when traffic matches the allow rule in the security policy, enabling further content inspection such as antivirus checks and data filtering.
+   - Define "allow but scan" rules to scan allowed applications for threats like viruses, malware, spyware, and DDOS attacks.
+   Applied when traffic matches the allow rule in the security policy, enabling further content inspection such as antivirus checks and data filtering.
 
 3. Security Profile Groups:  
 
-- Combine commonly applied security profiles.
-Can be added to security policies as a unit, simplifying configuration.
-Optionally set up a default security profile group to include in policies by default.
+   - Combine commonly applied security profiles.
+   Can be added to security policies as a unit, simplifying configuration.
+   Optionally set up a default security profile group to include in policies by default.
 
 > Policies > Security  
 
@@ -164,11 +166,11 @@ Optionally set up a default security profile group to include in policies by def
 ## URL Category: Policy Versus Profile
 
 | **URL Category in a Policy**                        | **URL Filtering Security Profile**                                      |
-| --------------------------------------------------- | ----------------------------------------------------------------------- |
+|-----------------------------------------------------|-------------------------------------------------------------------------|
 | Used as a match condition                           | Applied to traffic allowed by Security policy                           |
 | URLs matched to predefined or custom URL categories | URLs matched to predefined or custom URL categories                     |
 | Action determined in the policy rule                | Action more granularly configured for individual URLs or URL categories |
-| URL category name logged in the URL Filtering log   | URL details logged in the URL Filtering log          
+| URL category name logged in the URL Filtering log   | URL details logged in the URL Filtering log                             |
 
 ## URL Filtering Security Profile
 
@@ -199,12 +201,12 @@ Risk levels applicable only to unverified URLs. Some verified categories are con
 
 ## Available actions for URL Filtering
 
-- alert: Allows the user to access the website but adds an alert to the URL Filtering log
-- allow: Allows the user to access the website; no log or user message is generated.
-- block: Traffic is blocked, a block log entry is added to the URL Filtering log, and a response page is sent to the user’s browser.
-- continue: A response page is sent to the user’s browser that prompts the user to click Continue to proceed and logs the action to the URL - Filtering log. The “log” action is recorded as “block-continue” when the response page is generated and is changed to “continue” if the user clicks Continue. 
-- override: A response page is sent to the user’s browser that prompts the user for the administrator-defined override password and the firewall logs the action to the URL Filtering log.
-- none: (for a custom URL category only) Allows the firewall to inherit the URL Filtering category assignment from the URL database vendor
+- **alert**: Allows the user to access the website but adds an alert to the URL Filtering log
+- **allow**: Allows the user to access the website; no log or user message is generated.
+- **block**: Traffic is blocked, a block log entry is added to the URL Filtering log, and a response page is sent to the user’s browser.
+- **continue**: A response page is sent to the user’s browser that prompts the user to click Continue to proceed and logs the action to the URL - Filtering log. The “log” action is recorded as “block-continue” when the response page is generated and is changed to “continue” if the user clicks Continue. 
+- **override**: A response page is sent to the user’s browser that prompts the user for the administrator-defined override password and the firewall logs the action to the URL Filtering log.
+- **none**: (for a custom URL category only) Allows the firewall to inherit the URL Filtering category assignment from the URL database vendor
 
 
 

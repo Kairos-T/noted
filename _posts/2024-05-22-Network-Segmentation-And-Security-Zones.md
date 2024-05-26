@@ -1,7 +1,7 @@
 ---
 layout: post
 title: '[NS Wk 2] Network Segmentation and Security Zones'
-date: 2024-05-26 14:15 +0800
+date: 2024-05-22 14:15 +0800
 author: kairos
 categories: [ Network Security, NS Notes ]
 img_path: "/assets/img/ns/w2"
