@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[ NS Wk 1 ] Practical - Firewall VM Initial Setup
+title: '[NS Wk 1] Practical - Firewall VM Initial Setup'
 date: 2024-05-26 14:04 +0800
 author: kairos
 categories: [ Network Security, NS Practical ]
