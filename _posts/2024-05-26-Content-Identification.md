@@ -1,7 +1,7 @@
 ---
 layout: post
-title: '[NS Wk 6] Content-Identification'
-date: 2024-05-26 14:20 +0800
+title: '[NS Wk 6] Content Identification'
+date: 2024-05-26 17:15 +0800
 author: galen
 categories: [ Network Security, NS Notes ]
 img_path: "/assets/img/ns/w6"
