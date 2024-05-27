@@ -49,7 +49,7 @@ View Security Policies:
 ### Custom vs Predefined Rules
 
 Custom Rules
-: User-defined rules by admiistrators to meet specific requirements of organisation
+: User-defined rules by administrators to meet specific requirements of organisation
 - (+) Greater flexibility and granular control over firewall's behaviour
 - By default, all traffic is logged
 
