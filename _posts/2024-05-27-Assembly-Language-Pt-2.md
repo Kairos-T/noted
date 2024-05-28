@@ -4,7 +4,7 @@ title: '[MATT Wk 4] Assembly Language Pt. 2'
 date: 2024-05-27 23:57 +0800
 author: kairos
 categories: [ Malware Analysis Tools and Techniques, MATT Notes ]
-img_path: "/assets/img"
+img_path: "/assets/img/matt/assembly"
 ---
 
 # Conditionals
@@ -54,7 +54,7 @@ operands. The status flags are set according to the result:
 | dst > src    | 0  | 0  | `mov al, 6` <br> `cmp al, 5` | 
 | dst < src    | 0  | 1  | `mov al, 4` <br> `cmp al, 5` |
 
-# Conditional Jumps
+## Jumps
 
 Branching
 : Changing the flow of execution based on the results of the branches of a program. Most common way is through `jump`
@@ -64,7 +64,7 @@ Jump Instructions
 : Causes the next instruction executed to be the one specified by the `jmp` instruction.
 - There is no `if` statement in assembly language; instead, conditional jumps are used to implement branching.
 
-## Specific Flag-Based Jumps
+### Specific Flag-Based Jumps
 
 | Instruction | Description         | Flags Checked |
 |:------------|:--------------------|:--------------|
@@ -82,7 +82,7 @@ Jump Instructions
 > The jump occurs if the previous instruction sets the specified flag to the expected value.
 {: .prompt-info}
 
-## Equality-Based Jumps
+### Equality-Based Jumps
 
 | Instruction | Description                                          | Conditions Checked |
 |:------------|:-----------------------------------------------------|:-------------------|
@@ -91,9 +91,9 @@ Jump Instructions
 | `JCXZ loc`  | Jump if CX is Zero (or register between `J` and `Z`) | CX = 0             |
 | `JECXZ loc` | Jump if ECX is Zero                                  | ECX = 0            |
 
-## Comparison-Based Jumps
+### Comparison-Based Jumps
 
-### Unsigned Comparison
+#### Unsigned Comparison
 
 | Instruction | Description             | Conditions Checked |
 |:------------|:------------------------|:-------------------|
@@ -106,7 +106,7 @@ Jump Instructions
 | `JBE loc`   | Jump if Below/Equal     | leftOp ≤ rightOp   |
 | `JNA loc`   | Jump if Not Above       | leftOp ≤ rightOp   |
 
-### Signed Comparison
+#### Signed Comparison
 
 | Instruction | Description               | Conditions Checked |
 |:------------|:--------------------------|:-------------------|
@@ -119,6 +119,59 @@ Jump Instructions
 | `JLE loc`   | Jump if Less/Equal        | leftOp ≤ rightOp   |
 | `JNG loc`   | Jump if Not Greater       | leftOp ≤ rightOp   |
 
-[//]: # (# Looping)
+### Looping using Jumps
 
+Example:
 
+```assembly
+      mov eax, 10     ; load 10 into eax, i.e. loop counter
+loop: dec eax         ; decrement eax
+      cmp eax, 0      ; compare eax with 0
+      jnz loop        ; if ZF = 0, jump to loop
+
+```
+
+## Repeat Instructions
+
+- Used for manipulating data buffers, i.e. processing multi-byte data.
+  - Most commonly in array of bytes, but can be single or double words.
+- Registers must be initialized before using repeat instructions.
+- `rep` is the prefix for repeat instructions.
+
+Registers Used
+- `ECX` register: Loop variable counter
+- `ESI` register: Source index register
+- `EDI` register: Destination index register
+
+Instructions
+
+| Instruction                 | Description                      | Conditions Checked  |
+|:----------------------------|:---------------------------------|:--------------------|
+| `rep <op>`                  | Repeat until `ECX` = 0           | `ECX` = 0           |
+| `repe <op>` / `repz <op>`   | Repeat until `ECX` = 0 or ZF = 0 | `ECX` = 0 or ZF = 0 |
+| `repne <op>` / `repnz <op>` | Repeat until `ECX` = 0 or ZF = 1 | `ECX` = 0 or ZF = 1 |
+
+Other Repeat Instructions
+
+![Repeat Instructions](repeat-instructions.png)
+
+> Most common data buffer manipulation instructions are `movsx`, `cmpsx`, `stosx`, and `scasx`, where `x`=b, w, or d 
+  (byte, word, or double word). <br> A summary: <br>
+  `movsb`: Copies a sequence of bytes, with size defined by `ECX`<br>
+  `cmpsb`: Compares a sequence of bytes to determine if they are equal<br>
+  `stosb`: Stores a byte in the destination buffer<br>
+  `scasb`: Scans a byte for a single value.<br>
+{: .prompt-info}
+
+### Looping with Repeat Instructions
+
+Example:
+
+```assembly
+mov esi, src          ; load source address into esi
+mov edi, dest         ; load destination address into edi
+mov ecx, byte_count   ; load byte count into ecx
+cld                   ; clear direction flag, i.e. increment esi and edi. 
+; Alternatively, use `std` to decrement esi and edi.
+rep movsb             ; copy byte_count bytes from src to dest
+```
