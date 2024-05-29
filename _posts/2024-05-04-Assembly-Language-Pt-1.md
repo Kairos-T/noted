@@ -129,12 +129,13 @@ EFLAGS
 - Flags that are set based on the result of an operation. Used to make decisions in the program.
 - Each bit is a flag that is set to 0 (clear) or 1 (set).
 
-| Flag            | Description / Use Cases                                                                                    |
-|:----------------|:-----------------------------------------------------------------------------------------------------------|
-| Zero Flag (ZF)  | Set when result of an operation is 0                                                                       |
-| Carry Flag (CF) | Set when there is a carry out of the most significant bit. <br>E.g.: Overflow of unsigned integer addition | 
-| Sign Flag (SF)  | Set when the result of an operation is negative or when MSB is set                                         |
-| Trap Flag (TF)  | Used for debugging, CPU will single step                                                                   |
+| Flag             | Description / Use Cases                                                                                    |
+|:-----------------|:-----------------------------------------------------------------------------------------------------------|
+| Zero Flag (ZF)   | Set when result of an operation is 0                                                                       |
+| Carry Flag (CF)  | Set when there is a carry out of the most significant bit. <br>E.g.: Overflow of unsigned integer addition | 
+| Sign Flag (SF)   | Set when the result of an operation is negative or when MSB is set                                         |
+| Trap Flag (TF)   | Used for debugging, CPU will single step                                                                   |
+| Parity Flag (PF) | Indicates if the LSB of the result is even (PF = 1) or odd (PF = 0)                                        | 
 
 > Status flags just indicate various conditions that relate to the result of an operation. <br>For instance, the CF indicates if a carry/borrow operation occurred, but does NOT store the actual value of the carry/borrow. 
 {: .prompt-info }
@@ -157,12 +158,12 @@ EFLAGS
 | Directive              | Size     | Example      | Description                                                                                                                           |
 |:-----------------------|:---------|:-------------|:--------------------------------------------------------------------------------------------------------------------------------------|
 | DB (Define Byte)       | 1 byte   | var DB 64    | Define a byte referred to as location `var` containing the value `64`                                                                 |
-| DW (Define Word)       | 2 bytes  | var2 DW ?    | Defines a 2-byte unintialised value referred to as location `var2`                                                                    |
+| DW (Define Word)       | 2 bytes  | var2 DW ?    | Defines a 2-byte uninitialized value referred to as location `var2`                                                                   |
 | DD (Define Doubleword) | 4 bytes  | DD 10        | Defines 4-byte, containing the value `10`. <br/>It's location is var2 + 2 bytes (location is saved relative to the previous variable) |
 | DQ (Define Quadword)   | 8 bytes  | X DQ 100     | Defines 8-byte, referred to as location `X` containing the value `100`                                                                |
 | DT (Define Ten Bytes)  | 10 bytes | val DT 12345 | Defines 10-byte variable referred to as location `val` containing the value `12345`                                                   |
 
-> The `?` symbol is used to denote an uninitialized variable. 
+> The `?` symbol is used to denote an uninitialized variable (something like an empty container). <br>It is used to reserve memory space for a variable without assigning a value to it.
 {: .prompt-info }
 
 > When defining variables, you are essentially reserving memory space for it. <br> If you allocate an 8-byte variable, for instance, to the value `100`, it will be stored as `64 00 00 00 00 00 00 00` in memory (or 0x64).  
@@ -189,6 +190,13 @@ EFLAGS
   size equ 50 * 2
   ; Defines an expression, size, which is equated during assembly
   ```
+
+**Signed vs Unsigned Variables**
+
+- Unsigned variables: Only positive values (0 and above)
+  - E.g., `DB 255` is the maximum value for an 8-bit unsigned variable.
+- Signed variables: Can be positive or negative
+  - E.g., `DB 128` to `+127` is the range for an 8-bit signed variable.
 
 **Reference**
 
@@ -291,13 +299,15 @@ Division
 
 ### Logical Operations
 
-| Instructions   | Description/Example                                                                                                                                                              |
-|:---------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `xor eax, eax` | Clears the value in `eax`                                                                                                                                                        |   
-| `or eax, 0x10` | Bitwise OR with `0x10`                                                                                                                                                           |
-| `shl eax, 1`   | Shift left by x number of bits. <br/>Vacant positions are filled with zeros, shifted out bits are discarded. <br> E.g.: <br/>mov eax, 1<br> shl eax, 1<br/> 0001 (1) -> 0010 (2) |
-| `shr eax, 1`   | Shift right by x number of bits                                                                                                                                                  |
-| `ror eax, 1`   | Rotates bits right by x number of bits. <br>Bits shifted out are circularly inserted back into the leftmost positions.                                                           |
+| Instructions    | Description/Example                                                                                                                                                              |
+|:----------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `xor eax, eax`  | Clears the value in `eax`                                                                                                                                                        |   
+| `or eax, 0x10`  | Bitwise OR with `0x10`                                                                                                                                                           |
+| `not eax`       | Bitwise NOT of `eax`; inverts all bits in `eax`                                                                                                                                  |
+| `and eax, 0x10` | Bitwise AND with `0x10`<br> If both bits are 1, result is 1. Otherwise, result is 0.                                                                                             |
+| `shl eax, 1`    | Shift left by x number of bits. <br/>Vacant positions are filled with zeros, shifted out bits are discarded. <br> E.g.: <br/>mov eax, 1<br> shl eax, 1<br/> 0001 (1) -> 0010 (2) |
+| `shr eax, 1`    | Shift right by x number of bits                                                                                                                                                  |
+| `ror eax, 1`    | Rotates bits right by x number of bits. <br>Bits shifted out are circularly inserted back into the leftmost positions.                                                           |
 
 > The difference between `shift` and `rotate` is that shift discards the bits shifted out and fills vacant positions with zeros, while rotate inserts the bits shifted out back, meaning no bits are lost. 
 {: .prompt-info }
