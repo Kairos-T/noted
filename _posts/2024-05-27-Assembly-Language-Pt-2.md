@@ -128,7 +128,6 @@ Example:
 loop: dec eax         ; decrement eax
       cmp eax, 0      ; compare eax with 0
       jnz loop        ; if ZF = 0, jump to loop
-
 ```
 
 ## Repeat Instructions
@@ -175,3 +174,66 @@ cld                   ; clear direction flag, i.e. increment esi and edi.
 ; Alternatively, use `std` to decrement esi and edi.
 rep movsb             ; copy byte_count bytes from src to dest
 ```
+
+## Function Calls
+
+### The Stack
+
+Stack
+: A region of memory used to store data temporarily for functions, local variables, and flow control.
+- Push-Pop operations to store and retrieve data from the stack.
+- LIFO (Last In, First Out) data structure.
+- `ESP` register points to the top of the stack.
+- `EBP` register is used as a backup for `ESP`; does not change during function calls. Points to the start of frame.
+
+**Push Operation**
+- Decrements stack pointer `ESP` by 4 bytes (32-bit push) and copies value into location pointed by `ESP`.
+- Stack grows downwards, and the area under ESP is available for use unless overflowed.
+- Syntax:
+  - `push r/m16` or `push r/m32` - Register of memory; i.e. `push eax` or `push [eax]`
+  - `push imm32` - Immediate value; i.e. `push 0x12345678
+- ![Stack Push Operation](stack-push.png)
+
+**Pop Operation**
+- Copies value at stack[ESP] into register/variable, then increments `ESP` by 2 or 4 bytes, depending on attribute of 
+  operand receiving the data.
+- Syntax similar to `push` operation.
+
+### Functions
+
+Function
+: A block of code within a function that performs a specific task.
+- A program would `call` a function to transfer execution flow control to it.
+- When function completes execution, control is `ret`urned to the next program instruction after call.
+
+**Function Structure**
+1. **Prologue**: A few lines of code at the start of function to prepare stack and registers for use within function.
+2. **Function Body**: The main code block that performs the task.
+3. **Epilogue**: Restores stack and registers to state before the function was called.
+
+> Prologue and Epilogue can contain BOF protection code
+{: .prompt-info}
+
+**Interacting with Stack**
+1. Arguments placed on stack with `push` instruction.
+2. Function called using `call <memory_location>` (starting address of function).
+3. EIP pushed onto stack and set to `<memory_location>`.
+4. Space allocated on stack for local variables, and `EBP` is pushed onto stack.
+5. Function executes. After completion, stack is restored using epilogue.
+6. Function returns using `ret` instruction. Stack adjusted to remove function arguments (unless they'll be used again).
+
+## C vs ASM
+
+- Malware is often written in C.
+- Main method: `int main(int argc, char **argv)`.
+  - `argc`: Number of arguments passed to program, including program name.
+  - `argv`: Array of arguments passed to program containing command-line arguments.
+  - `argc` and `argv` determined at runtime.
+
+**Main Method**
+
+![Main Method](main-method.png)
+
+![Prologue and Epilogue](prologue-epilogue.png)
+
+Refer to slides for the other comparison examples :")
