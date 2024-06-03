@@ -52,16 +52,16 @@ img_path: "/assets/img/eh/w1"
 
 ## CEH Hacking Methodology (CHM)
 
-1. Footprinting
-2. Scanning
-3. Enumeration
-4. Vulnerability Analysis
-5. System Hacking
-
-- Gaining Access
-- Escalating Privileges
-- Maintaining Access
-- Clearing Logs
+1. **Footprinting**: Gathering information about the target system
+2. **Scanning**: Procedures to identify hosts, port, and services
+3. **Enumeration**: Actively connecting with target to gather information about users, shares, etc. from responses from
+   target
+4. **Vulnerability Analysis**: In-depth examination of the ability of a system to withstand attacks
+5. **System Hacking**: Gaining access to target system
+  - Gaining Access
+  - Escalating Privileges
+  - Maintaining Access
+  - Clearing Logs
 
 ## Cyber Kill Chain Methodology
 
