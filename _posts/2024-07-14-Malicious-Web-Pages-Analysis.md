@@ -4,7 +4,6 @@ title: '[ MATT Wk 12 ] Malicious Web Pages Analysis'
 date: 2024-07-14 16:53 +0800
 author: kairos
 categories: [ Malware Analysis Tools and Techniques, MATT Notes ]
-img_path: "/assets/img/malicious-web-pages-analysis"
 ---
 
 # Malicious Websites
