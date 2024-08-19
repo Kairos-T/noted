@@ -68,7 +68,7 @@ Each instruction corresponds to `opcodes`, which are the machine code representa
 
 > x86 architecture uses little-endian format (LSB stored first). However, during network communication, big-endian (MSB stored first) is used. 
 > <br>Conversion Examples:<br> `0x42` -> `42 00 00 00` (little-endian) -> `00 00 00 42` (big-endian)
-> <br>`0x0100007F` (little-endian) -> `0x0100007F` (big-endian)
+> <br>`0x0100007F` (little-endian) -> `0x7F000001` (big-endian)
 {: .prompt-info }
 
 **Operand Types**
